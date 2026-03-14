@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto - lumihome</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #fcfcfc;
+            color: #2c3e50;
+        }
+
+        header {
+            text-align: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: #4a4a4a;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .product-container {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 25px;
+        }
+
+        .product-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: #1a1a1a;
+        }
+
+        .price-container {
+            margin: 20px 0;
+        }
+
+        .old-price-label {
+            font-size: 0.95rem;
+            color: #888;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+        }
+
+        .current-price-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .current-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .save-badge {
+            background-color: #f0fdf4;
+            color: #166534;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #bbf7d0;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid #d1d5db;
+            border-radius: 6px;
+            width: fit-content;
+            margin-bottom: 25px;
+        }
+
+        .quantity-selector button {
+            background: #f9fafb;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 15px;
+        }
+
+        .quantity-selector input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .btn-buy {
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .trust-badges {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .payment-icons {
+            display: flex;
+            gap: 10px;
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+
+        .payment-icons img {
+            height: 20px;
+        }
+
+        .secure-text {
+            font-size: 0.8rem;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- Botón de WhatsApp Flotante --- */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 340px;
+            text-align: center;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .pay-link {
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .paypal { background-color: #0070ba; color: white; }
+        .nequi { background-color: #FF00FF; color: white; }
+
+        .btn-close {
+            margin-top: 20px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #total-info {
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        #total-cop {
+            font-weight: 600;
+            color: #4a4a4a;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>lumihome</header>
+
+    <div class="product-container">
+        <img src="Inhalador.jpg" alt="Portable Nasal Inhaler" class="product-image">
+
+        <h1 class="product-title">Portable Nasal Inhaler</h1>
+
+        <div class="price-container">
+            <div class="old-price-label">Precio original: <span class="old-price">$9.50</span></div>
+            <div class="current-price-container">
+                <span class="current-price">$3.03</span>
+                <span class="save-badge">OFERTA DE HOY</span>
+            </div>
+        </div>
+
+        <div class="quantity-selector">
+            <button onclick="changeQty(-1)">−</button>
+            <input type="text" id="qty" value="1" readonly>
+            <button onclick="changeQty(1)">+</button>
+        </div>
+
+        <button class="btn-buy" onclick="openModal()">COMPRAR AHORA</button>
+
+        <div class="trust-badges">
+            <div class="secure-text">
+                🔒 Pago 100% seguro y encriptado
+            </div>
+            <div class="payment-icons">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="Amex">
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/message/AUNZIFAYM5ZWG1" class="whatsapp-float" target="_blank">
+        <svg width="35" height="35" fill="white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.483 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.308 1.656zm6.757-4.791c1.512.894 3.001 1.378 4.675 1.379 5.437.001 9.861-4.422 9.863-9.859.001-2.631-1.03-5.111-2.895-6.974-1.866-1.865-4.346-2.894-6.975-2.895-5.438 0-9.864 4.425-9.866 9.861-.001 1.83.479 3.619 1.391 5.204l-1.026 3.738 3.827-.994zm11.377-10.43c-.266-.134-1.576-.777-1.821-.865-.246-.089-.425-.133-.604.134-.179.267-.692.865-.848 1.044-.156.178-.312.2-.578.066-.266-.134-1.124-.415-2.14-1.321-.791-.705-1.324-1.577-1.48-1.844-.156-.267-.016-.411.117-.544.12-.119.266-.312.4-.467.133-.156.178-.267.266-.445.089-.178.045-.333-.022-.467-.067-.133-.604-1.455-.826-1.992-.217-.521-.433-.45-.604-.459-.155-.008-.334-.008-.513-.008-.179 0-.47.067-.716.334-.246.267-.938.916-.938 2.233 0 1.317.959 2.589 1.093 2.768.134.178 1.887 2.88 4.569 4.037.639.276 1.137.441 1.526.564.641.204 1.226.175 1.688.107.514-.076 1.576-.644 1.799-1.266.223-.622.223-1.155.156-1.266-.067-.11-.246-.177-.512-.311z"/></svg>
+    </a>
+
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-content">
+            <h3 style="margin:0;">Finalizar Pedido</h3>
+            <div id="total-info"></div>
+            <div id="total-cop"></div>
+
+            <p style="font-size: 0.8rem; color: #4b5563; line-height: 1.2;">
+                El valor en COP es una referencia para pagos por Nequi. Por favor, asegúrate de enviar el monto exacto.
+            </p>
+
+            <div class="payment-options">
+                <a href="https://paypal.me/CRIPT9" id="linkPaypal" target="_blank" class="pay-link paypal">Pagar con PayPal</a>
+                <a href="https://checkout.nequi.wompi.co/l/O697lQ" id="linkNequi" target="_blank" class="pay-link nequi">Pagar con Nequi</a>
+            </div>
+
+            <button class="btn-close" onclick="closeModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        const precioUnitarioUSD = 3.03;
+        const tasaCambioCOP = 3960;
+
+        function changeQty(val) {
+            let input = document.getElementById('qty');
+            let current = parseInt(input.value);
+            if (current + val >= 1) {
+                input.value = current + val;
+            }
+        }
+
+        function openModal() {
+            let cantidad = parseInt(document.getElementById('qty').value);
+            let totalUSD = (cantidad * precioUnitarioUSD).toFixed(2);
+            let totalCOP = Math.round(cantidad * precioUnitarioUSD * tasaCambioCOP);
+
+            let totalCOPFormateado = new Intl.NumberFormat('es-CO').format(totalCOP);
+
+            document.getElementById('total-info').innerText = "Total: $" + totalUSD + " USD";
+            document.getElementById('total-cop').innerText = "equivale a: $" + totalCOPFormateado + " COP";
+
+            document.getElementById('linkPaypal').href = `https://paypal.me/CRIPT9/${totalUSD}`;
+
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById('paymentModal');
+            if (event.target == modal) closeModal();
+        }
+    </script>
+
+</body>
+  </html>
